@@ -350,8 +350,6 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
-              <Property Name="TurnRadius (mm)" />
-              <Property Name="StraightLength (mm)" />
               <Property Name="Direction (1 or -1)" />
               <Property Name="RootPath" />
               <Property Name="Date" />
@@ -361,6 +359,7 @@
               <Property Name="Framerate" />
               <Property Name="LEDOption" />
               <Property Name="Duration (sec)" />
+              <Property Name="Radius (mm)" />
             </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>TrialParameters</Name>
@@ -375,19 +374,11 @@
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Value" DisplayName="TurnRadius (mm)" />
+                    <Property Name="Value" DisplayName="Radius (mm)" />
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>6</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="ExternalizedMapping">
-                    <Property Name="Value" DisplayName="StraightLength (mm)" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="FloatProperty">
-                      <Value>50</Value>
+                      <Value>25</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
@@ -438,7 +429,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="IntProperty">
-                      <Value>300</Value>
+                      <Value>10</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -451,12 +442,11 @@
                     <scr:Name>Rename Var</scr:Name>
                     <scr:Expression>New(
 it.Item1.Item1 as Speed,
-it.Item1.Item2 as TurnRadius,
-it.Item1.Item3 as StraightLength,
-it.Item1.Item4 as Direction,
-it.Item1.Item5 as Framerate,
-it.Item1.Item6 as LEDOption,
-it.Item1.Item7 as TrialDuration,
+it.Item1.Item2 as Radius,
+it.Item1.Item3 as Direction,
+it.Item1.Item4 as Framerate,
+it.Item1.Item5 as LEDOption,
+it.Item1.Item6 as TrialDuration,
 it.Item2.Item1 as RedLEDSwitch,
 it.Item2.Item2 as GreenLEDSwitch)</scr:Expression>
                   </Expression>
@@ -505,7 +495,7 @@ it.Item2.Item2 as GreenLEDSwitch)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="StringProperty">
-                            <Value>20240718</Value>
+                            <Value>Circle</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -521,7 +511,7 @@ it.Item2.Item2 as GreenLEDSwitch)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="StringProperty">
-                            <Value>Parallel</Value>
+                            <Value>Circle</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -575,28 +565,26 @@ it.Item2.Item2 as GreenLEDSwitch)</scr:Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="19" Label="Source1" />
+                  <Edge From="1" To="17" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="3" To="19" Label="Source2" />
+                  <Edge From="3" To="17" Label="Source2" />
                   <Edge From="4" To="5" Label="Source1" />
-                  <Edge From="5" To="19" Label="Source3" />
+                  <Edge From="5" To="17" Label="Source3" />
                   <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="19" Label="Source4" />
+                  <Edge From="7" To="10" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
-                  <Edge From="9" To="12" Label="Source1" />
-                  <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source2" />
-                  <Edge From="12" To="20" Label="Source2" />
+                  <Edge From="9" To="10" Label="Source2" />
+                  <Edge From="10" To="18" Label="Source2" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="17" Label="Source4" />
                   <Edge From="13" To="14" Label="Source1" />
-                  <Edge From="14" To="19" Label="Source5" />
+                  <Edge From="14" To="17" Label="Source5" />
                   <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="16" To="19" Label="Source6" />
+                  <Edge From="16" To="17" Label="Source6" />
                   <Edge From="17" To="18" Label="Source1" />
-                  <Edge From="18" To="19" Label="Source7" />
+                  <Edge From="18" To="19" Label="Source1" />
                   <Edge From="19" To="20" Label="Source1" />
-                  <Edge From="20" To="21" Label="Source1" />
                   <Edge From="21" To="22" Label="Source1" />
-                  <Edge From="23" To="24" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -1228,7 +1216,7 @@ it as Frame)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>25602</Value>
+                      <Value>851</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -1481,26 +1469,12 @@ state = None                #Stimulus State
 
 # State Legend
 # 99 - Initiation (Close Loop With Fly Center of Mass and Orientation)
-# 0 - Straight Section
-# -1/1 - Curved Section (signal indicates direction of the turn - left vs right)
-
-# Global Protocol Variables
-n = None                    #Counter for the amount straight steps the stimulus needs to do before entering a curved section(if this number is not whole it is corrected on the first step of the curved section)
-m = None                    #Counter for the amount curved steps the stimulus needs to do before entering a straight section(if this number is not whole it is corrected on the first step of the straight section)
-sign_straight = None        #Used to shift directions during the straight sections
-sign_curve = None           #Used to shift rotation direction during the curves
-switch = None               #Used to add or not pi to the angle used to determine the curved section stimulus position (1 adds pi / -1 does not add pi)
-switch_counter = None       #Used to countdown the number of curved sections before the switch changes
-yi = None                   #Sets the initial stimulus y coordinate for the curved sections. Important since the the position of the target during the curved sections is done relative to the initial position
-ti = None                   #Saves Previous Time Point to Process dt
-dt = None                   #Interval of time since last projected frame
-counter = None
-
+# 0 - Circle Path
 
 @returns(Tuple[float,float,float,float,float,bool,bool])
 def process(value):
     #Load Global Variables
-    global StimX, StimY, StimOri, n, m, state, sign_straight, sign_curve, switch, switch_counter, yi, ti, dt, counter
+    global StimX, StimY, StimOri, state
 
     # Initiate LEDs
     RedLEDSwitch = value.Item2.RedLEDSwitch
@@ -1522,100 +1496,57 @@ def process(value):
       
     # Protocol Specific Inputs
     speed=value.Item2.Speed       #Stimulus speed in Millimeters/Second
-    r=value.Item2.TurnRadius      #Radius of the curved section
-    l=value.Item2.StraightLength  #Length of the straight section
+    r=value.Item2.Radius      #Radius of the curved section
     sign=value.Item2.Direction    #Global direction (changes the entire protocol direction to the mirror image)
-    
-    dt = 0.011765
+
+    # General Variables
+    dt = 0.011765    
+    dd = speed*dt                 #Amount of distance traveled by the stimulus in between projection frames
+    d = dd/2                      #half tangent(distance travelled) for angle calculation
+    dtheta = sign*2*math.asin(d/r)    #angle in the circle to move in each step
 
     # Protocol Algorithm -------------------------------   
-    if ti is None:
-      ti = t
-      counter = 0
-      return Tuple.Create(float(value.Item1.Item2),float.NaN,float.NaN,float.NaN,float.NaN,RedLED,GreenLED)
+    if (t &lt; 5):
+      StimX = 0
+      StimY = 0
+      StimOri = 0
+      state = 99
+    elif (t &gt; 5 and t &lt; 6):
+      StimX = r
+      StimY = 0
+      StimOri = 0
+      state = 99
     else:
-      # Time Interval
-      if counter &lt; 10:
-        counter += 1
-       #(dt*(counter-1)/counter)+(t - ti)/counter  #makes dt a pseudo-average insted of the actual interval
-      #dt = t - ti                   
-      ti = t
-      # Protocol Constants
-      dd = speed*dt                 #Amount of distance traveled by the stimulus in between projection frames
-      halfl = l/2                   #Half of the length of the straight path (Used to keep the protocol centered and to know the starting X protision of the curved sections)     
-      halfc = math.pi*r             #Perimeter of half a circle
-      k = halfc/dd                  #Number of steps required to travel along the half circle perimeter
-      # Protocol Logic
-      if t &lt; 5:
-        StimX = -sign*halfl
-        StimY = 0
-        StimOri = 0
-        sign_straight = 1
-        sign_curve = 1
-        switch = -1
-        switch_counter = 0
-        state = 99
-        n = None
-      else:
-        PrevX = StimX             #Saves Previous X value for the stimulus
-        PrevY = StimY             #Saves Previous Y value for the stimulus
-        if n is None:
-          StimX = -sign*halfl
-          StimY = 0
-          n = l/dd
-          m = 0
-          state = 0
-        elif (state==0 and n&gt;=1): 
-          StimX += sign*sign_straight*dd
-          n -= 1
-        elif (n&lt;1 and (m+1)&lt;k):
-          if m==0:
-            m = (1-n)
-            state = sign_curve*1
-            yi = StimY
-          else:
-            m += 1
-          vangle = sign_curve*(((1-m/k)*math.pi/2) + (1+switch)*math.pi/2)
-          vlength = 2*r*math.sin((m/k)*math.pi/2) 
-          StimX = sign*(sign_straight*halfl + vlength*math.sin(vangle))
-          StimY = yi + vlength*math.cos(vangle)
-        elif ((m+1)&gt;k):
-          StimX = sign*sign_straight*(halfl - (1-(m+1-k))*dd)
-          n = l/dd - (m+1-k)
-          m = 0
-          sign_straight = -sign_straight
-          if (switch_counter==0):
-            switch = -switch
-            switch_counter = 2
-          elif (switch_counter==1):
-            sign_curve = -sign_curve
-          switch_counter -= 1
-          state = 0
-        StimOri = math.atan2(StimY-PrevY, StimX-PrevX)
-        
-        # LED Control
-        if (RedLEDSwitch):
-          RedLED = bool(True);
-        if (GreenLEDSwitch):
-          if(option==1):
-            halfn = l/(2*dd)
-            halfk = k/2
-            time1 = fr*(duration/3)
-            time2 = fr*(duration*2/3)
-            if(state==0 and n&lt;halfn and frame&gt;time1 and frame&lt;time2):
-              GreenLED = bool(True);
-            if(abs(state)==1 and m&gt;halfk and frame&gt;time2):
-              GreenLED = bool(True);
-          if(option==2):
-            time1 = fr*(duration/2)
-            if(state==0 and frame&gt;time1):
-              GreenLED = bool(True);
-          if(option==0):
-            time1 = fr*(1/3)
-            if(frame&gt;time1):
-              GreenLED = bool(True);
-      # In the output we have also value.Item1.Item5 which corresponds to the Low Resolution Frame number
-      return Tuple.Create(float(value.Item1.Item2),float(StimX),float(StimY),float(StimOri),float(state),RedLED,GreenLED)</ipy:Script>
+      state = 0
+      PrevX = StimX             #Saves Previous X value for the stimulus
+      PrevY = StimY             #Saves Previous Y value for the stimulus
+      theta = math.atan2(StimY,StimX)
+      StimX = r*math.cos(theta+dtheta)
+      StimY = r*math.sin(theta+dtheta)
+      StimOri = math.atan2(StimY-PrevY, StimX-PrevX)
+      
+      # LED Control
+      if (RedLEDSwitch):
+        RedLED = bool(True);
+      if (GreenLEDSwitch):
+        if(option==1):
+          halfn = l/(2*dd)
+          halfk = k/2
+          time1 = fr*(duration/3)
+          time2 = fr*(duration*2/3)
+          if(state==0 and n&lt;halfn and frame&gt;time1 and frame&lt;time2):
+            GreenLED = bool(True);
+          if(abs(state)==1 and m&gt;halfk and frame&gt;time2):
+            GreenLED = bool(True);
+        if(option==2):
+          time1 = fr*(duration/2)
+          if(state==0 and frame&gt;time1):
+            GreenLED = bool(True);
+        if(option==0):
+          time1 = fr*(1/3)
+          if(frame&gt;time1):
+            GreenLED = bool(True);
+    return Tuple.Create(float(value.Item1.Item2),float(StimX),float(StimY),float(StimOri),float(state),RedLED,GreenLED)</ipy:Script>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
@@ -1786,7 +1717,7 @@ it.Timestamp as TimeProjection)</scr:Expression>
                           <Name>Fly</Name>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\Users\Utilizador\Desktop\20240718\Parallel30mms_Fly_.csv</io:FileName>
+                          <io:FileName>C:\Users\Utilizador\Desktop\Circle\Circle30mms_Fly_.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>false</io:Overwrite>
                           <io:Suffix>FileCount</io:Suffix>
@@ -1831,7 +1762,7 @@ it.Timestamp as TimeProjection)</scr:Expression>
                           <Name>Command</Name>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\Users\Utilizador\Desktop\20240718\Parallel30mms_Stim_.csv</io:FileName>
+                          <io:FileName>C:\Users\Utilizador\Desktop\Circle\Circle30mms_Stim_.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>false</io:Overwrite>
                           <io:Suffix>FileCount</io:Suffix>
@@ -1877,7 +1808,7 @@ it.Timestamp as TimeProjection)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\Users\Utilizador\Desktop\20240718\Parallel30mms_CamL_.avi</cv:FileName>
+                            <cv:FileName>C:\Users\Utilizador\Desktop\Circle\Circle30mms_CamL_.avi</cv:FileName>
                             <cv:Suffix>FileCount</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>false</cv:Overwrite>
@@ -2080,7 +2011,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Skip">
-                      <rx:Count>300</rx:Count>
+                      <rx:Count>10</rx:Count>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
