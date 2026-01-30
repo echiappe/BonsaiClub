@@ -909,10 +909,8 @@ it as Orientation)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p2:HeadVisualizer" />
                   </Expression>
-                  <Expression xsi:type="Disable">
-                    <Builder xsi:type="SubscribeSubject">
-                      <Name>HighResCamera</Name>
-                    </Builder>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>HighResCamera</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="IntProperty">

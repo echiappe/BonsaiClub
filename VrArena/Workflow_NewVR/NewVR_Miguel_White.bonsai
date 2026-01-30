@@ -26,7 +26,7 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:uEyeCapture">
                 <p1:DeviceId>2</p1:DeviceId>
-                <p1:ConfigFile>C:\Users\Concave VR\Desktop\LowResCamParams.ini</p1:ConfigFile>
+                <p1:ConfigFile>C:\Users\ALBINO\Desktop\LowResCamParams.ini</p1:ConfigFile>
               </Combinator>
             </Expression>
             <Expression xsi:type="MemberSelector">
@@ -42,7 +42,7 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p1:uEyeCapture">
                 <p1:DeviceId>1</p1:DeviceId>
-                <p1:ConfigFile>C:\Users\Concave VR\Desktop\HighResCamParams.ini</p1:ConfigFile>
+                <p1:ConfigFile>C:\Users\ALBINO\Desktop\HighResCamParams.ini</p1:ConfigFile>
               </Combinator>
             </Expression>
             <Expression xsi:type="MemberSelector">
@@ -81,7 +81,7 @@
                 <gl:Location xsi:nil="true" />
                 <gl:WindowBorder>Fixed</gl:WindowBorder>
                 <gl:WindowState>Normal</gl:WindowState>
-                <gl:DisplayDevice>First</gl:DisplayDevice>
+                <gl:DisplayDevice>Second</gl:DisplayDevice>
                 <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
                 <gl:TargetUpdateFrequency>85</gl:TargetUpdateFrequency>
                 <gl:RenderState />
@@ -160,7 +160,7 @@
               <Property Name="FileName" DisplayName="PX2MM" />
             </Expression>
             <Expression xsi:type="io:CsvReader">
-              <io:FileName>C:\Users\Concave VR\Desktop\VRConversions\PX2MM.txt</io:FileName>
+              <io:FileName>C:\Users\ALBINO\Desktop\VRConversions\PX2MM.txt</io:FileName>
               <io:ListSeparator />
               <io:ScanPattern>%f,%f,%f</io:ScanPattern>
               <io:SkipRows>0</io:SkipRows>
@@ -216,7 +216,7 @@
               <Property Name="FileName" DisplayName="MM2VL" />
             </Expression>
             <Expression xsi:type="io:CsvReader">
-              <io:FileName>C:\Users\Concave VR\Desktop\VRConversions\MM2VL.txt</io:FileName>
+              <io:FileName>C:\Users\ALBINO\Desktop\VRConversions\MM2VL.txt</io:FileName>
               <io:ListSeparator />
               <io:ScanPattern>%f,%f,%f</io:ScanPattern>
               <io:SkipRows>0</io:SkipRows>
@@ -272,7 +272,7 @@
               <Property Name="FileName" DisplayName="MM2VR" />
             </Expression>
             <Expression xsi:type="io:CsvReader">
-              <io:FileName>C:\Users\Concave VR\Desktop\VRConversions\MM2VR.txt</io:FileName>
+              <io:FileName>C:\Users\ALBINO\Desktop\VRConversions\MM2VR.txt</io:FileName>
               <io:ListSeparator />
               <io:ScanPattern>%f,%f,%f</io:ScanPattern>
               <io:SkipRows>0</io:SkipRows>
@@ -421,7 +421,7 @@ it.Item3 as OffFrames)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="StringProperty">
-                            <Value>C:\Users\Concave VR\Desktop</Value>
+                            <Value>C:\Users\ALBINO\Desktop</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
@@ -449,7 +449,7 @@ it.Item3 as OffFrames)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="StringProperty">
-                            <Value>20240614</Value>
+                            <Value>20241220W</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -547,7 +547,7 @@ it.Item3 as OffFrames)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:Threshold">
-                      <cv:ThresholdValue>107</cv:ThresholdValue>
+                      <cv:ThresholdValue>112</cv:ThresholdValue>
                       <cv:MaxValue>255</cv:MaxValue>
                       <cv:ThresholdType>BinaryInv</cv:ThresholdType>
                     </Combinator>
@@ -929,7 +929,7 @@ it as GreenLED)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>79058</Value>
+                      <Value>17988</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Divide">
@@ -1102,7 +1102,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="pal:SetFixedVoltage">
-                      <pal:PortName>COM4</pal:PortName>
+                      <pal:PortName>COM6</pal:PortName>
                       <pal:Channels>2</pal:Channels>
                     </Combinator>
                   </Expression>
@@ -1111,7 +1111,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="pal:SetFixedVoltage">
-                      <pal:PortName>COM4</pal:PortName>
+                      <pal:PortName>COM6</pal:PortName>
                       <pal:Channels>1</pal:Channels>
                     </Combinator>
                   </Expression>
@@ -1245,7 +1245,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="ard:DigitalOutput">
-                      <ard:PortName>COM3</ard:PortName>
+                      <ard:PortName>COM7</ard:PortName>
                       <ard:Pin>10</ard:Pin>
                     </Combinator>
                   </Expression>
@@ -1335,7 +1335,7 @@ it.Timestamp as TimeCommand)</scr:Expression>
                           <Name>FlyFinal</Name>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\Users\Concave VR\Desktop\20240605m\White_Fly_.csv</io:FileName>
+                          <io:FileName>C:\Users\ALBINO\Desktop\20241210W\White_Fly_.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>false</io:Overwrite>
                           <io:Suffix>FileCount</io:Suffix>
@@ -1381,7 +1381,7 @@ it.Timestamp as TimeCommand)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\Users\Concave VR\Desktop\20240605m\White_CamL_.avi</cv:FileName>
+                            <cv:FileName>C:\Users\ALBINO\Desktop\20241210W\White_CamL_.avi</cv:FileName>
                             <cv:Suffix>FileCount</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>false</cv:Overwrite>
@@ -1419,7 +1419,7 @@ it.Timestamp as TimeCommand)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\Users\Concave VR\Desktop\20240605m\White_CamH_.avi</cv:FileName>
+                            <cv:FileName>C:\Users\ALBINO\Desktop\20241210W\White_CamH_.avi</cv:FileName>
                             <cv:Suffix>FileCount</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>false</cv:Overwrite>
@@ -1478,7 +1478,7 @@ it.Timestamp as TimeCommand)</scr:Expression>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="ard:DigitalOutput">
-          <ard:PortName>COM3</ard:PortName>
+          <ard:PortName>COM7</ard:PortName>
           <ard:Pin>10</ard:Pin>
         </Combinator>
       </Expression>
