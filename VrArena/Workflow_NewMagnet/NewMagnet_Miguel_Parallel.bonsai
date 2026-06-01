@@ -403,7 +403,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="BooleanProperty">
-                      <Value>false</Value>
+                      <Value>true</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
@@ -411,7 +411,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="BooleanProperty">
-                      <Value>false</Value>
+                      <Value>true</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -1033,7 +1033,7 @@ it as Head)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:Threshold">
-                      <cv:ThresholdValue>105</cv:ThresholdValue>
+                      <cv:ThresholdValue>150</cv:ThresholdValue>
                       <cv:MaxValue>255</cv:MaxValue>
                       <cv:ThresholdType>Binary</cv:ThresholdType>
                     </Combinator>
@@ -1078,19 +1078,19 @@ it as RedLED)</scr:Expression>
                         <cv:ArrayOfPoint>
                           <cv:Point>
                             <cv:X>483</cv:X>
-                            <cv:Y>35</cv:Y>
+                            <cv:Y>52</cv:Y>
                           </cv:Point>
                           <cv:Point>
                             <cv:X>522</cv:X>
-                            <cv:Y>35</cv:Y>
+                            <cv:Y>52</cv:Y>
                           </cv:Point>
                           <cv:Point>
                             <cv:X>522</cv:X>
-                            <cv:Y>78</cv:Y>
+                            <cv:Y>95</cv:Y>
                           </cv:Point>
                           <cv:Point>
                             <cv:X>483</cv:X>
-                            <cv:Y>78</cv:Y>
+                            <cv:Y>95</cv:Y>
                           </cv:Point>
                         </cv:ArrayOfPoint>
                       </cv:Regions>
@@ -1105,7 +1105,7 @@ it as RedLED)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:Threshold">
-                      <cv:ThresholdValue>105</cv:ThresholdValue>
+                      <cv:ThresholdValue>150</cv:ThresholdValue>
                       <cv:MaxValue>255</cv:MaxValue>
                       <cv:ThresholdType>Binary</cv:ThresholdType>
                     </Combinator>
@@ -1265,7 +1265,7 @@ it as Frame)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>2563</Value>
+                      <Value>2569</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
