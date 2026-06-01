@@ -215,12 +215,12 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p2:CreateDiscreteUniform">
                 <p2:Lower>0</p2:Lower>
-                <p2:Upper>1</p2:Upper>
+                <p2:Upper>2</p2:Upper>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p2:SampleDistinct">
-                <p2:Count>2</p2:Count>
+                <p2:Count>3</p2:Count>
               </Combinator>
             </Expression>
             <Expression xsi:type="rx:Condition">
@@ -371,7 +371,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>30</Value>
+                      <Value>20</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedMapping">
@@ -438,7 +438,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="IntProperty">
-                      <Value>300</Value>
+                      <Value>10</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -505,7 +505,7 @@ it.Item2.Item2 as GreenLEDSwitch)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="StringProperty">
-                            <Value>20251027</Value>
+                            <Value>Trash</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -1254,7 +1254,7 @@ it as Frame)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="FloatProperty">
-                      <Value>25478</Value>
+                      <Value>855</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -1434,7 +1434,7 @@ it.Value.Item7 as TimeAcquisition)</scr:Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Timer">
                       <rx:DueTime>PT0S</rx:DueTime>
-                      <rx:Period>PT0.015S</rx:Period>
+                      <rx:Period>PT0.02S</rx:Period>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -1699,11 +1699,13 @@ it.Item7 as GreenLED)
               <Name>Command</Name>
               <Workflow>
                 <Nodes>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Timer">
-                      <rx:DueTime>PT2S</rx:DueTime>
-                      <rx:Period>PT0S</rx:Period>
-                    </Combinator>
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="rx:Timer">
+                        <rx:DueTime>PT2S</rx:DueTime>
+                        <rx:Period>PT0S</rx:Period>
+                      </Combinator>
+                    </Builder>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>Stim</Name>
@@ -1721,8 +1723,10 @@ it.Item7 as GreenLED)
                     <scr:Name>BuildMoveCommand</scr:Name>
                     <scr:Expression>"G21 G53 X" + Item1.ToString() + " Y" + Item2.ToString()</scr:Expression>
                   </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:SkipUntil" />
+                  <Expression xsi:type="Disable">
+                    <Builder xsi:type="Combinator">
+                      <Combinator xsi:type="rx:SkipUntil" />
+                    </Builder>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="io:SerialStringWrite">
@@ -1819,7 +1823,7 @@ it.Timestamp as TimeProjection)</scr:Expression>
                           <Name>Fly</Name>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\Users\Utilizador\Desktop\20251027\Parallel30mms_Fly_.csv</io:FileName>
+                          <io:FileName>C:\Users\Utilizador\Desktop\Trash\Parallel20mms_Fly_.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>false</io:Overwrite>
                           <io:Suffix>FileCount</io:Suffix>
@@ -1864,7 +1868,7 @@ it.Timestamp as TimeProjection)</scr:Expression>
                           <Name>Command</Name>
                         </Expression>
                         <Expression xsi:type="io:CsvWriter">
-                          <io:FileName>C:\Users\Utilizador\Desktop\20251027\Parallel30mms_Stim_.csv</io:FileName>
+                          <io:FileName>C:\Users\Utilizador\Desktop\Trash\Parallel20mms_Stim_.csv</io:FileName>
                           <io:Append>false</io:Append>
                           <io:Overwrite>false</io:Overwrite>
                           <io:Suffix>FileCount</io:Suffix>
@@ -1910,7 +1914,7 @@ it.Timestamp as TimeProjection)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="cv:VideoWriter">
-                            <cv:FileName>C:\Users\Utilizador\Desktop\20251027\Parallel30mms_CamL_.avi</cv:FileName>
+                            <cv:FileName>C:\Users\Utilizador\Desktop\Trash\Parallel20mms_CamL_.avi</cv:FileName>
                             <cv:Suffix>FileCount</cv:Suffix>
                             <cv:Buffered>true</cv:Buffered>
                             <cv:Overwrite>false</cv:Overwrite>
@@ -2113,7 +2117,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Skip">
-                      <rx:Count>300</rx:Count>
+                      <rx:Count>10</rx:Count>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2149,6 +2153,11 @@ def process(value):
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Delay">
           <rx:DueTime>PT2S</rx:DueTime>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Skip">
+          <rx:Count>2</rx:Count>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -2203,11 +2212,12 @@ def process(value):
       <Edge From="11" To="12" Label="Source1" />
       <Edge From="12" To="13" Label="Source1" />
       <Edge From="13" To="14" Label="Source1" />
-      <Edge From="13" To="16" Label="Source1" />
-      <Edge From="13" To="18" Label="Source1" />
       <Edge From="14" To="15" Label="Source1" />
-      <Edge From="16" To="17" Label="Source1" />
-      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="14" To="17" Label="Source1" />
+      <Edge From="14" To="19" Label="Source1" />
+      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="19" To="20" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
