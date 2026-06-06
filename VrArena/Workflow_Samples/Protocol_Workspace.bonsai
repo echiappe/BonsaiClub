@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.7.1"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
+                 xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:ipy="clr-namespace:Bonsai.Scripting.IronPython;assembly=Bonsai.Scripting.IronPython"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:CreateWindow">
+          <gl:Width>800</gl:Width>
+          <gl:Height>800</gl:Height>
+          <gl:VSync>On</gl:VSync>
+          <gl:SwapSync>false</gl:SwapSync>
+          <gl:ClearColor>White</gl:ClearColor>
+          <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
+          <gl:CursorVisible>true</gl:CursorVisible>
+          <gl:Location xsi:nil="true" />
+          <gl:WindowBorder>Resizable</gl:WindowBorder>
+          <gl:WindowState>Normal</gl:WindowState>
+          <gl:DisplayDevice>First</gl:DisplayDevice>
+          <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
+          <gl:TargetUpdateFrequency xsi:nil="true" />
+          <gl:RenderState />
+          <gl:GraphicsMode>
+            <gl:ColorFormat>
+              <gl:Red>8</gl:Red>
+              <gl:Green>8</gl:Green>
+              <gl:Blue>8</gl:Blue>
+              <gl:Alpha>8</gl:Alpha>
+            </gl:ColorFormat>
+            <gl:Depth>16</gl:Depth>
+            <gl:Stencil>0</gl:Stencil>
+            <gl:Samples>0</gl:Samples>
+            <gl:AccumulatorFormat>
+              <gl:Red>0</gl:Red>
+              <gl:Green>0</gl:Green>
+              <gl:Blue>0</gl:Blue>
+              <gl:Alpha>0</gl:Alpha>
+            </gl:AccumulatorFormat>
+            <gl:Buffers>2</gl:Buffers>
+            <gl:Stereo>false</gl:Stereo>
+          </gl:GraphicsMode>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.BonVisionResources.bonsai" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:TextureResources">
+          <gl:Textures>
+            <gl:TextureConfiguration xsi:type="gl:ImageTexture">
+              <gl:Name>house</gl:Name>
+              <gl:Width xsi:nil="true" />
+              <gl:Height xsi:nil="true" />
+              <gl:InternalFormat>Rgba</gl:InternalFormat>
+              <gl:WrapS>Repeat</gl:WrapS>
+              <gl:WrapT>Repeat</gl:WrapT>
+              <gl:MinFilter>Linear</gl:MinFilter>
+              <gl:MagFilter>Linear</gl:MagFilter>
+              <gl:FileName>..\resources\house.jpg</gl:FileName>
+              <gl:ColorType>Unchanged</gl:ColorType>
+              <gl:FlipMode>Vertical</gl:FlipMode>
+            </gl:TextureConfiguration>
+          </gl:Textures>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="res:LoadResources" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="gl:RenderFrame" />
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Environment.OrthographicView.bonsai">
+        <Left>-1</Left>
+        <Right>1</Right>
+        <Bottom>-1</Bottom>
+        <Top>1</Top>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>Draw</Name>
+      </Expression>
+      <Expression xsi:type="ExternalizedMapping">
+        <Property Name="TextureName" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>Draw</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Timer">
+          <rx:DueTime>PT0S</rx:DueTime>
+          <rx:Period>PT0.011765S</rx:Period>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="FloatProperty">
+          <Value>0.011765</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="rx:Accumulate" />
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="ipy:PythonTransform">
+          <ipy:Name>ProtocolSinusoid</ipy:Name>
+          <ipy:Script>import math
+from System import Tuple
+
+# ==========================================
+# 1. MANUAL INPUTS (Protocol Configuration)
+# ==========================================
+SPEED = 20.0        # Target speed of the stimulus in mm/s
+LENGTH = 20.0       # Total length of the straight arena section (mm)
+SIGN = 1            # Global direction multiplier (1 for normal, -1 for mirrored)
+NUM_LOOPS = 4       # Number of half-loops to perform
+DT = 0.011765       # Fixed time interval between frames (seconds)
+
+# ==========================================
+# 2. DERIVED PROTOCOL CONSTANTS
+# ==========================================
+R = LENGTH / (2 * NUM_LOOPS)        # Radius of each loop (mm)
+DIST_PER_STEP = SPEED * DT          # Arc length traveled per frame (mm)
+HALF_L = LENGTH / 2.0               # Half of the arena length (mm)
+HALF_C = math.pi * R                # Perimeter of a half-circle loop (mm)
+BASE_STEPS = HALF_C / DIST_PER_STEP # Base number of frames to complete a half-loop
+ANGLE_PER_STEP = DIST_PER_STEP / R  # Angular distance traveled per frame (Radians)
+
+# ==========================================
+# 3. GENERIC OUTPUT VARIABLES
+# ==========================================
+# These variables represent the physical state of the stimulus.
+# They are passed to the rendering engine regardless of what protocol is running.
+StimX = None        # Stimulus X Coordinate (mm)
+StimY = None        # Stimulus Y Coordinate (mm)
+StimOri = None      # Stimulus Orientation (Radians)
+state = None        # Stimulus State (99 = Initialization, 1 = Active Protocol)
+
+# ==========================================
+# 4. PROTOCOL-SPECIFIC STATE VARIABLES
+# ==========================================
+# These variables exclusively track the internal logic of the sinusoid loop pattern.
+steps_taken = None              # Frames elapsed in the current loop
+angular_dir = None              # Current rotational direction (1 = CCW, -1 = CW)
+loop_id = None                  # Tracks which loop segment we are currently drawing
+center_x = None                 # X coordinate of the current loop's center
+center_y = None                 # Y coordinate of the current loop's center
+center_shift_dir = -1           # Direction to shift the center when moving to next loop
+target_steps = None             # Dynamically calculated frame target to finish current loop
+
+
+@returns(Tuple[float, float, float, float, float, float])
+def process(t):
+    # Declare usage of global generic outputs and protocol specific variables
+    global StimX, StimY, StimOri, state
+    global steps_taken, angular_dir, loop_id, center_x, center_y, center_shift_dir, target_steps
+
+    # ---------------------------------------------------------
+    # PHASE 1: Initialization &amp; Waiting Period (t &lt; 1 second)
+    # ---------------------------------------------------------
+    if t &lt; 1 or StimX is None:
+        # Set generic outputs to starting positions
+        StimX = -1 * HALF_L
+        StimY = 0.0
+        StimOri = 0.0
+        state = 99
+        
+        # Initialize protocol-specific state
+        steps_taken = 0
+        angular_dir = SIGN
+        target_steps = BASE_STEPS     # Start with the default step count
+        debug_step_dist = 0.0         # Visualization output placeholder
+
+    # ---------------------------------------------------------
+    # PHASE 2: Protocol Execution Loop (t &gt;= 1 second)
+    # ---------------------------------------------------------
+    else:
+        # Store previous positions for kinematic calculations
+        PrevX, PrevY = StimX, StimY 
+        
+        # Initialize the center of the first loop on the first execution frame
+        if center_x is None:
+            center_x = -(NUM_LOOPS - 1) * HALF_L / NUM_LOOPS
+            center_y = 0.0
+
+        # Find exact current angle relative to the active circle's center
+        current_angle = math.atan2(PrevY - center_y, PrevX - center_x)
+        
+        # --- LOOP TRANSITION LOGIC ---
+        # Triggered when we have taken enough steps to complete the current loop segment
+        if steps_taken &gt; target_steps - 1:
+            angular_dir = -angular_dir
+            steps_taken = 0
+            
+            # 1. Update Loop ID and center progression direction
+            if loop_id == NUM_LOOPS - 1 or loop_id is None:
+                loop_id = 1
+                center_shift_dir = -center_shift_dir
+            else:
+                loop_id += 1
+                
+            # 2. Shift the center coordinates physically forward/backward
+            center_x += 2 * R * center_shift_dir   
+            
+            # 3. Recalculate true angle relative to the NEW center (Prevents teleporting)
+            current_angle = math.atan2(PrevY - center_y, PrevX - center_x)
+            
+            # 4. Dynamically adjust required steps to account for discrete frame remainder
+            is_near_zero = abs(current_angle) &lt; math.pi / 2
+            is_full_loop = (loop_id == NUM_LOOPS - 1)
+            
+            # Determine target exit angle (0 or pi)
+            if is_near_zero:
+                target_angle = 0.0 if is_full_loop else math.pi
+            else:
+                target_angle = math.pi if is_full_loop else 0.0
+                
+            # Calculate remaining angular distance (Modulo 2*pi handles wrapping)
+            dist_to_travel = ((target_angle - current_angle) * angular_dir) % (2 * math.pi)
+            
+            # Force full circle if targeting the same side
+            if is_full_loop and dist_to_travel &lt; math.pi:
+                dist_to_travel += 2 * math.pi
+                
+            # Update loop target steps based on the exact distance needed
+            target_steps = dist_to_travel / ANGLE_PER_STEP
+            
+        # --- MOVEMENT EXECUTION ---
+        # Calculate next position along the circumference
+        StimX = math.cos(angular_dir * ANGLE_PER_STEP + current_angle) * R + center_x
+        StimY = math.sin(angular_dir * ANGLE_PER_STEP + current_angle) * R + center_y
+        
+        # Update generic outputs
+        StimOri = math.atan2(StimY - PrevY, StimX - PrevX)
+        state = 1
+        steps_taken += 1
+
+        # --- VISUALIZATION / DEBUG OUTPUT ---
+        # Calculates the Euclidean distance traveled this frame to verify speed consistency
+        debug_step_dist = math.hypot(StimX - PrevX, StimY - PrevY)
+        
+    return Tuple.Create(float(t), float(StimX), float(StimY), float(StimOri), float(state), float(debug_step_dist))</ipy:Script>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="ipy:PythonTransform">
+        <ipy:Name>ProtocolOcclusion</ipy:Name>
+        <ipy:Script>"""
+==============================================================================
+CIRCULAR TRAJECTORY TRACKING PROTOCOL
+==============================================================================
+Description:
+This protocol simulates a target moving continuously along a circular trajectory. 
+The target travels along the circumference and periodically triggers inward 
+"events" where it moves toward the center and back out to the edge. The center 
+of the trajectory contains an "occlusion zone" where the target can be flagged as 
+hidden during these events. The simulation includes configurable delays for 
+initialization (lethargy), complex turn events, and occlusion rendering.
+
+Event Probabilities (Post-Delays):
+------------------------------------------------------------------------------
+Once the active time surpasses both DELAY_TURN_TIME and DELAY_OCCLUSION_TIME, 
+the occlusion trigger is an independent 50/50 chance. The final combination 
+probabilities depend on the TURN_MODE selected:
+
+* If TURN_MODE = 1 or -1 (50% Straight, 50% Turn):
+   - Straight + Visible (Non-Occluded) = 25%
+   - Straight + Occluded               = 25%
+   - Turn + Visible (Non-Occluded)     = 25%
+   - Turn + Occluded                   = 25%
+
+* If TURN_MODE = 0 (33.3% Straight, 66.6% Turn [split evenly Left/Right]):
+   - Straight + Visible (Non-Occluded) = ~16.67% (1/6 chance)
+   - Straight + Occluded               = ~16.67% (1/6 chance)
+   - Turn + Visible (Non-Occluded)     = ~33.33% (1/3 chance)
+   - Turn + Occluded                   = ~33.33% (1/3 chance)
+
+Output Variables Map:
+------------------------------------------------------------------------------
+* STATE (Directional Tracker):
+    99 = Initialization / Lethargy (stationary at start position)
+     0 = Moving along the circumference
+     1 = Moving inward (towards the center)
+     2 = Moving outward (away from the center)
+
+* EVENT (Action Tracker):
+     0 = Between events (moving along the circumference)
+     1 = Straight Event (crossing diameter) - Visible
+     2 = Straight Event (crossing diameter) - Occluded in center
+     3 = Turn Event (consistent with global SIGN) - Visible
+     4 = Turn Event (consistent with global SIGN) - Occluded in center
+     5 = Turn Event (opposite to global SIGN) - Visible
+     6 = Turn Event (opposite to global SIGN) - Occluded in center
+
+* OCCLUDED (Visibility Flag):
+   0.0 = Target is visible
+   1.0 = Target is inside the occlusion zone and is hidden
+==============================================================================
+"""
+
+import math
+import random
+from System import Tuple
+
+# ==========================================
+# 1. MANUAL INPUTS (Protocol Configuration)
+# ==========================================
+SPEED = 20.0                # Target speed of the stimulus in mm/s
+R = 25.0                    # Radius of the circular trajectory (mm)
+SIGN = 1                    # Global direction multiplier (1 for CCW, -1 for CW)
+DT = 0.011765               # Fixed time interval between frames (seconds)
+MIN_EVENT_TIME = 5.0        # Minimum time before an event triggers (seconds)
+MAX_EVENT_TIME = 7.5        # Maximum time before an event triggers (seconds)
+OCCLUSION_TIME = 1.0        # Time target spends inside the occlusion zone (seconds)
+
+# --- TIMING INPUTS ---
+LETHARGY_TIME = 30.0         # Time (seconds) target stays at start before moving
+DELAY_OCCLUSION_TIME = 300.0 # Time (seconds) moving before occlusions are allowed
+DELAY_TURN_TIME = 300.0      # Time (seconds) moving before turn events are allowed
+
+# --- TURN DIRECTION INPUT ---
+#  1 = Turn direction matches SIGN (50% Straight, 50% Turn)
+# -1 = Turn direction opposes SIGN (50% Straight, 50% Turn)
+#  0 = Randomized evenly (33.3% Straight, 33.3% Left Turn, 33.3% Right Turn)
+TURN_MODE = 1                
+
+# ==========================================
+# 2. DERIVED PROTOCOL CONSTANTS
+# ==========================================
+DIST_PER_STEP = SPEED * DT              # Exact distance to travel per frame (mm)
+OCCLUSION_DIST = SPEED * OCCLUSION_TIME # Total diameter of the occlusion zone
+OCCLUSION_RADIUS = OCCLUSION_DIST / 2.0 # Radius of the occlusion zone
+
+# ==========================================
+# 3. GENERIC OUTPUT VARIABLES
+# ==========================================
+StimX = None        # Stimulus X Coordinate (mm)
+StimY = None        # Stimulus Y Coordinate (mm)
+StimOri = None      # Stimulus Orientation (Radians)
+state = None        # Stimulus State (99 = Init, 0 = Circle, 1 = Towards Center, 2 = Away from Center)
+event = None        # Event Type 
+
+# ==========================================
+# 4. PROTOCOL-SPECIFIC STATE VARIABLES
+# ==========================================
+current_angle = None         # Current angle of the polar coordinate (Radians)
+current_radius = None        # Current distance from the center
+angular_dir = None           # Current rotational direction (1 = CCW, -1 = CW)
+steps_taken = None           # Frames elapsed on the current circular segment
+target_steps = None          # Randomized target frame limit for the circular segment
+path_mode = None             # Internal Logic: 0=Circle, 1=Diameter, 2=Inward, 3=Outward
+is_occlusion_active = False  # Tracks if the center occlusion zone is currently active
+current_turn_modifier = None # Internal Logic: Holds the +/- 1 multiplier for 90-degree turns
+
+
+@returns(Tuple[float, float, float, float, float, float, float])
+def process(t):
+    global StimX, StimY, StimOri, state, event
+    global current_angle, current_radius, angular_dir, steps_taken, target_steps, path_mode
+    global is_occlusion_active, current_turn_modifier
+
+    # ---------------------------------------------------------
+    # PHASE 1: Initialization &amp; Lethargy Period
+    # ---------------------------------------------------------
+    if t &lt; LETHARGY_TIME or StimX is None:
+        StimX = R
+        StimY = 0.0
+        StimOri = 0.0
+        state = 99
+        event = 0
+        
+        # Initialize internal state logic
+        current_angle = 0.0
+        current_radius = R
+        angular_dir = SIGN
+        steps_taken = 0.0
+        path_mode = 0
+        is_occlusion_active = False
+        current_turn_modifier = 1
+        
+        # Determine the first randomized event time
+        target_time = random.uniform(MIN_EVENT_TIME, MAX_EVENT_TIME)
+        target_steps = target_time / DT
+        
+        occluded = 0.0
+
+    # ---------------------------------------------------------
+    # PHASE 2: Protocol Execution Loop (t &gt;= LETHARGY_TIME)
+    # ---------------------------------------------------------
+    else:
+        PrevX, PrevY = StimX, StimY 
+        
+        distance_to_move = DIST_PER_STEP
+        
+        while distance_to_move &gt; 0.0001: 
+            
+            # --- MODE 0: CIRCULAR PATH ---
+            if path_mode == 0:
+                dist_to_turn = (target_steps - steps_taken) * DIST_PER_STEP
+                
+                if distance_to_move &lt; dist_to_turn:
+                    current_angle += angular_dir * (distance_to_move / R)
+                    steps_taken += distance_to_move / DIST_PER_STEP
+                    distance_to_move = 0.0
+                else:
+                    # Hit the event boundary!
+                    current_angle += angular_dir * (dist_to_turn / R)
+                    distance_to_move -= dist_to_turn
+                    
+                    # Calculate how long the target has been actively moving
+                    time_active = t - LETHARGY_TIME
+                    
+                    # Check Turn Delay
+                    if time_active &lt; DELAY_TURN_TIME:
+                        path_mode = 1 # Force straight diameter
+                    else:
+                        # Event Selection based on TURN_MODE
+                        if TURN_MODE == 0:
+                            # 33.3% Straight, 33.3% Left Turn, 33.3% Right Turn
+                            rand_choice = random.random()
+                            if rand_choice &lt; 0.333333:
+                                path_mode = 1
+                            elif rand_choice &lt; 0.666667:
+                                path_mode = 2
+                                current_turn_modifier = 1
+                            else:
+                                path_mode = 2
+                                current_turn_modifier = -1
+                        else:
+                            # Standard 50/50 Chance for Straight vs Turn
+                            if random.random() &lt; 0.5:
+                                path_mode = 1
+                            else:
+                                path_mode = 2
+                                current_turn_modifier = SIGN * TURN_MODE
+                            
+                    # Check Occlusion Delay
+                    if time_active &lt; DELAY_OCCLUSION_TIME:
+                        is_occlusion_active = False # Force visible
+                    else:
+                        # 50/50 Chance to activate the Occlusion Zone
+                        is_occlusion_active = (random.random() &lt; 0.5)
+                        
+                    current_radius = R
+            
+            # --- MODE 1: STRAIGHT ACROSS DIAMETER ---
+            elif path_mode == 1:
+                dist_to_edge = current_radius - (-R) 
+                
+                if distance_to_move &lt; dist_to_edge:
+                    current_radius -= distance_to_move
+                    distance_to_move = 0.0
+                else:
+                    distance_to_move -= dist_to_edge
+                    current_angle += math.pi   
+                    current_radius = R
+                    
+                    # Return to circle
+                    path_mode = 0
+                    steps_taken = 0.0
+                    target_steps = random.uniform(MIN_EVENT_TIME, MAX_EVENT_TIME) / DT
+                    is_occlusion_active = False # Reset occlusion
+                    
+            # --- MODE 2: STRAIGHT INWARD TO CENTER ---
+            elif path_mode == 2:
+                dist_to_center = current_radius
+                
+                if distance_to_move &lt; dist_to_center:
+                    current_radius -= distance_to_move
+                    distance_to_move = 0.0
+                else:
+                    distance_to_move -= dist_to_center
+                    current_radius = 0.0
+                    
+                    # 90-Degree Turn using the pre-selected modifier
+                    current_angle += current_turn_modifier * (math.pi / 2.0)
+                    path_mode = 3
+                    
+            # --- MODE 3: STRAIGHT OUTWARD FROM CENTER ---
+            elif path_mode == 3:
+                dist_to_edge = R - current_radius
+                
+                if distance_to_move &lt; dist_to_edge:
+                    current_radius += distance_to_move
+                    distance_to_move = 0.0
+                else:
+                    distance_to_move -= dist_to_edge
+                    current_radius = R
+                    
+                    # Return to circle
+                    path_mode = 0
+                    steps_taken = 0.0
+                    target_steps = random.uniform(MIN_EVENT_TIME, MAX_EVENT_TIME) / DT
+                    is_occlusion_active = False # Reset occlusion
+
+        # --- MOVEMENT EXECUTION (Internal Simulation) ---
+        StimX = current_radius * math.cos(current_angle)
+        StimY = current_radius * math.sin(current_angle)
+        StimOri = math.atan2(StimY - PrevY, StimX - PrevX)
+
+        # --- STATE &amp; EVENT EVALUATION ---
+        if path_mode == 0:
+            state = 0
+            event = 0
+        elif path_mode == 1:
+            # Radius goes negative after crossing the center, so &gt;= 0 is inward
+            state = 1 if current_radius &gt;= 0 else 2
+            event = 2 if is_occlusion_active else 1
+        elif path_mode == 2 or path_mode == 3:
+            state = 1 if path_mode == 2 else 2
+            # Check if the turn is consistent with the global rotation direction
+            if current_turn_modifier == SIGN:
+                event = 4 if is_occlusion_active else 3
+            else:
+                event = 6 if is_occlusion_active else 5
+
+    # ---------------------------------------------------------
+    # PHASE 3: Output Formatting
+    # ---------------------------------------------------------
+    # Calculate occlusion state independently of position rendering
+    if is_occlusion_active and abs(current_radius) &lt;= OCCLUSION_RADIUS:
+        occluded = 1.0 # 1 when occluded
+    else:
+        occluded = 0.0 # 0 when visible
+
+    return Tuple.Create(
+        float(t), 
+        float(StimX), 
+        float(StimY), 
+        float(StimOri), 
+        float(state), 
+        float(event), 
+        float(occluded)
+    )</ipy:Script>
+      </Expression>
+      <Expression xsi:type="scr:ExpressionTransform">
+        <scr:Name>Rename Var</scr:Name>
+        <scr:Expression>New(
+it.Item1 as Timer,
+it.Item2 as X,
+it.Item3 as Y,
+it.Item4 as Orientation,
+it.Item5 as State,
+it.Item6 as Check)
+</scr:Expression>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Timer</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Check</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>X</Selector>
+      </Expression>
+      <Expression xsi:type="Divide">
+        <Operand xsi:type="DoubleProperty">
+          <Value>50</Value>
+        </Operand>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="LocationX" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="LocationX" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Y</Selector>
+      </Expression>
+      <Expression xsi:type="Divide">
+        <Operand xsi:type="DoubleProperty">
+          <Value>50</Value>
+        </Operand>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="LocationY" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="LocationY" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Orientation</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="FloatProperty">
+          <Value>0</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="Angle" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>State</Selector>
+      </Expression>
+      <Expression xsi:type="Multiply">
+        <Operand xsi:type="DoubleProperty">
+          <Value>-1</Value>
+        </Operand>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="ColorR" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="ColorB" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item7</Selector>
+      </Expression>
+      <Expression xsi:type="Add">
+        <Operand xsi:type="DoubleProperty">
+          <Value>-1</Value>
+        </Operand>
+      </Expression>
+      <Expression xsi:type="Multiply">
+        <Operand xsi:type="DoubleProperty">
+          <Value>-1</Value>
+        </Operand>
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="ColorA" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
+        <LocationX>-0.484206766</LocationX>
+        <LocationY>0.124674834</LocationY>
+        <Layer>0</Layer>
+        <Diameter>0.05</Diameter>
+        <ColorR>-0</ColorR>
+        <ColorG>0</ColorG>
+        <ColorB>0</ColorB>
+        <ColorA>1</ColorA>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawImage.bonsai">
+          <Angle>0</Angle>
+          <TextureName>house</TextureName>
+          <ExtentX>1</ExtentX>
+          <ExtentY>1</ExtentY>
+          <LocationX>0</LocationX>
+          <LocationY>0</LocationY>
+          <Layer>0</Layer>
+          <ScaleX>1</ScaleX>
+          <ScaleY>1</ScaleY>
+          <ShiftX>0</ShiftX>
+          <ShiftY>0</ShiftY>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="Disable">
+        <Builder xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCheckerboard.bonsai">
+          <NumberColumns>5</NumberColumns>
+          <NumberRows>5</NumberRows>
+          <Phase>0</Phase>
+          <ExtentX>1</ExtentX>
+          <ExtentY>1</ExtentY>
+          <LocationX>0</LocationX>
+          <LocationY>0</LocationY>
+          <Layer>0</Layer>
+          <Angle>0</Angle>
+        </Builder>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="7" To="37" Label="Source5" />
+      <Edge From="8" To="36" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="12" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="13" To="32" Label="Source1" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="14" To="16" Label="Source1" />
+      <Edge From="14" To="17" Label="Source1" />
+      <Edge From="14" To="21" Label="Source1" />
+      <Edge From="14" To="25" Label="Source1" />
+      <Edge From="14" To="28" Label="Source1" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="18" To="20" Label="Source1" />
+      <Edge From="19" To="36" Label="Source2" />
+      <Edge From="20" To="37" Label="Source2" />
+      <Edge From="21" To="22" Label="Source1" />
+      <Edge From="22" To="23" Label="Source1" />
+      <Edge From="22" To="24" Label="Source1" />
+      <Edge From="23" To="36" Label="Source3" />
+      <Edge From="24" To="37" Label="Source3" />
+      <Edge From="25" To="26" Label="Source1" />
+      <Edge From="26" To="27" Label="Source1" />
+      <Edge From="27" To="37" Label="Source4" />
+      <Edge From="28" To="29" Label="Source1" />
+      <Edge From="28" To="31" Label="Source1" />
+      <Edge From="29" To="30" Label="Source1" />
+      <Edge From="30" To="36" Label="Source4" />
+      <Edge From="31" To="36" Label="Source5" />
+      <Edge From="32" To="33" Label="Source1" />
+      <Edge From="33" To="34" Label="Source1" />
+      <Edge From="34" To="35" Label="Source1" />
+      <Edge From="35" To="36" Label="Source6" />
+      <Edge From="36" To="37" Label="Source1" />
+      <Edge From="37" To="38" Label="Source1" />
+      <Edge From="38" To="39" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
