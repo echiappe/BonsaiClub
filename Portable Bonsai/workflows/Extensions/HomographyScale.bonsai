@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.9.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:ipy="clr-namespace:Bonsai.Scripting.IronPython;assembly=Bonsai.Scripting.IronPython"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="WorkflowInput">
+        <Name>Source1</Name>
+      </Expression>
+      <Expression xsi:type="WorkflowInput">
+        <Name>Source2</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Zip" />
+      </Expression>
+      <Expression xsi:type="ipy:PythonTransform">
+        <ipy:Name>ScaleTransform</ipy:Name>
+        <ipy:Script>import clr
+import math
+
+@returns(float)
+def process(value):
+    """
+    value: tuple (float, matrix)
+        - float: input scalar
+        - matrix: 3x3 list of lists [[a,b,c],[d,e,f],[g,h,i]]
+    returns:
+        float (scaled result)
+    """
+
+    # Unpack inputs
+    input_value, mat = value
+
+    # Unpack matrix elements
+    a, b, c = mat[0]
+    d, e, f = mat[1]
+    g, h, i = mat[2]
+
+    # Compute scale along X (point (1,0))
+    scaleX = (a*1 + b*0 + c) / (g*1 + h*0 + i)
+
+    # Compute scale along Y (point (0,1))
+    scaleY = (d*0 + e*1 + f) / (g*0 + h*1 + i)
+
+    # Average scale magnitude
+    scale = abs((scaleX + scaleY) / 2.0)
+
+    # Multiply by input value
+    result = scale * input_value
+
+    return result</ipy:Script>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="2" Label="Source1" />
+      <Edge From="1" To="2" Label="Source2" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="4" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
