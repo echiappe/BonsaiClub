@@ -21,7 +21,7 @@ public class HeadVisualizer
             var stim = new Point((int)value.Item4.X,(int)value.Item4.Y);
             CV.Circle(image, centroid, 1, Scalar.Rgb(255, 0, 0), -1);
             CV.Circle(image, head, 1, Scalar.Rgb(255, 255, 0), -1);
-            CV.Circle(image, stim, 1, Scalar.Rgb(0, 255, 0), -1);
+            CV.Circle(image, stim, 1, Scalar.Rgb(0, 0, 255), -1);
             return image;
         });
     }
