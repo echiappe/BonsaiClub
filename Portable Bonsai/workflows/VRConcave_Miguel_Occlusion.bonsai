@@ -560,7 +560,7 @@
                         </Expression>
                         <Expression xsi:type="GreaterThanOrEqual">
                           <Operand xsi:type="DoubleProperty">
-                            <Value>5</Value>
+                            <Value>1530</Value>
                           </Operand>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -801,7 +801,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="DoubleProperty">
-                      <Value>-0.745500922203064</Value>
+                      <Value>NaN</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\Clamp.bonsai">
@@ -817,7 +817,7 @@ def process(value):
                     <Combinator xsi:type="pal:SetFixedVoltage">
                       <pal:DeviceName>PulsePal</pal:DeviceName>
                       <pal:Channel>2</pal:Channel>
-                      <pal:Voltage>-0.745500922203064</pal:Voltage>
+                      <pal:Voltage>-10</pal:Voltage>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
@@ -830,7 +830,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="DoubleProperty">
-                      <Value>5.4305324554443359</Value>
+                      <Value>NaN</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\Clamp.bonsai">
@@ -846,7 +846,7 @@ def process(value):
                     <Combinator xsi:type="pal:SetFixedVoltage">
                       <pal:DeviceName>PulsePal</pal:DeviceName>
                       <pal:Channel>1</pal:Channel>
-                      <pal:Voltage>5.4305324554443359</pal:Voltage>
+                      <pal:Voltage>-10</pal:Voltage>
                     </Combinator>
                   </Expression>
                 </Nodes>
@@ -985,7 +985,7 @@ it.Item4 as ExperimentalTime)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:Threshold">
-                      <cv:ThresholdValue>100</cv:ThresholdValue>
+                      <cv:ThresholdValue>110</cv:ThresholdValue>
                       <cv:MaxValue>255</cv:MaxValue>
                       <cv:ThresholdType>BinaryInv</cv:ThresholdType>
                     </Combinator>
@@ -1002,7 +1002,7 @@ it.Item4 as ExperimentalTime)</scr:Expression>
                         <cv:X>0</cv:X>
                         <cv:Y>0</cv:Y>
                       </cv:Offset>
-                      <cv:MinArea>1</cv:MinArea>
+                      <cv:MinArea>10</cv:MinArea>
                       <cv:MaxArea>2000</cv:MaxArea>
                     </Combinator>
                   </Expression>
@@ -1526,20 +1526,20 @@ it as Fly2Orientation)</scr:Expression>
                       <cv:Regions>
                         <cv:ArrayOfPoint>
                           <cv:Point>
-                            <cv:X>85</cv:X>
-                            <cv:Y>466</cv:Y>
+                            <cv:X>166</cv:X>
+                            <cv:Y>835</cv:Y>
                           </cv:Point>
                           <cv:Point>
-                            <cv:X>44</cv:X>
-                            <cv:Y>466</cv:Y>
+                            <cv:X>132</cv:X>
+                            <cv:Y>814</cv:Y>
                           </cv:Point>
                           <cv:Point>
-                            <cv:X>44</cv:X>
-                            <cv:Y>443</cv:Y>
+                            <cv:X>132</cv:X>
+                            <cv:Y>791</cv:Y>
                           </cv:Point>
                           <cv:Point>
-                            <cv:X>85</cv:X>
-                            <cv:Y>443</cv:Y>
+                            <cv:X>173</cv:X>
+                            <cv:Y>791</cv:Y>
                           </cv:Point>
                         </cv:ArrayOfPoint>
                       </cv:Regions>
@@ -1554,7 +1554,7 @@ it as Fly2Orientation)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="cv:Threshold">
-                      <cv:ThresholdValue>20</cv:ThresholdValue>
+                      <cv:ThresholdValue>3</cv:ThresholdValue>
                       <cv:MaxValue>255</cv:MaxValue>
                       <cv:ThresholdType>Binary</cv:ThresholdType>
                     </Combinator>
@@ -1775,7 +1775,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>1</Value>
+                <Value>5</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
@@ -1783,7 +1783,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>1</Value>
+                <Value>7.5</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
@@ -1791,7 +1791,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>1</Value>
+                <Value>0.5</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -1802,7 +1802,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>10</Value>
+                <Value>300</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
@@ -1810,7 +1810,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>0</Value>
+                <Value>30</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
@@ -1826,7 +1826,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>10</Value>
+                <Value>300</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="ExternalizedMapping">
@@ -1866,6 +1866,46 @@ def process(value):
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>Params</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>VROutput</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>RedLED</Selector>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="wie:KeyDown">
+                <wie:Filter>None</wie:Filter>
+                <wie:SuppressRepetitions>false</wie:SuppressRepetitions>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:TakeUntil" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>End</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:TakeUntil" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="BooleanProperty">
+                <Value>false</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Concat" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="ard:DigitalOutput">
+                <ard:PortName>COM7</ard:PortName>
+                <ard:Pin>3</ard:Pin>
+              </Combinator>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>Draw</Name>
@@ -2199,10 +2239,28 @@ def process(value):
                       <Property Name="Diameter" />
                     </PropertyMappings>
                   </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Occluded</Selector>
+                  </Expression>
+                  <Expression xsi:type="Multiply">
+                    <Operand xsi:type="DoubleProperty">
+                      <Value>-1</Value>
+                    </Operand>
+                  </Expression>
+                  <Expression xsi:type="Add">
+                    <Operand xsi:type="DoubleProperty">
+                      <Value>1</Value>
+                    </Operand>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="ColorA" />
+                    </PropertyMappings>
+                  </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="BonVision:Primitives.DrawCircle.bonsai">
-                    <Diameter>0.0370119326</Diameter>
-                    <LocationX>-0.296338558</LocationX>
-                    <LocationY>-0.170330569</LocationY>
+                    <Diameter>0.020957334</Diameter>
+                    <LocationX>-0.326551884</LocationX>
+                    <LocationY>0.134269282</LocationY>
                     <Layer>0</Layer>
                     <ColorR>0</ColorR>
                     <ColorG>0</ColorG>
@@ -2217,28 +2275,33 @@ def process(value):
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="0" To="2" Label="Source1" />
-                  <Edge From="1" To="19" Label="Source1" />
+                  <Edge From="1" To="23" Label="Source1" />
                   <Edge From="2" To="4" Label="Source1" />
                   <Edge From="3" To="4" Label="Source2" />
                   <Edge From="4" To="5" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="6" To="20" Label="Source2" />
+                  <Edge From="6" To="19" Label="Source1" />
+                  <Edge From="6" To="24" Label="Source2" />
                   <Edge From="7" To="9" Label="Source1" />
                   <Edge From="8" To="9" Label="Source2" />
                   <Edge From="9" To="10" Label="Source1" />
                   <Edge From="9" To="12" Label="Source1" />
                   <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="11" To="19" Label="Source2" />
+                  <Edge From="11" To="23" Label="Source2" />
                   <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="13" To="19" Label="Source3" />
+                  <Edge From="13" To="23" Label="Source3" />
                   <Edge From="14" To="15" Label="Source1" />
                   <Edge From="15" To="17" Label="Source1" />
                   <Edge From="16" To="17" Label="Source2" />
                   <Edge From="17" To="18" Label="Source1" />
-                  <Edge From="18" To="19" Label="Source4" />
+                  <Edge From="18" To="23" Label="Source4" />
                   <Edge From="19" To="20" Label="Source1" />
                   <Edge From="20" To="21" Label="Source1" />
+                  <Edge From="21" To="22" Label="Source1" />
+                  <Edge From="22" To="23" Label="Source5" />
+                  <Edge From="23" To="24" Label="Source1" />
+                  <Edge From="24" To="25" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2394,37 +2457,6 @@ it.Item3.Item2.Time as Time)</scr:Expression>
             <Expression xsi:type="rx:PublishSubject">
               <Name>VROutput</Name>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>VROutput</Name>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>RedLED</Selector>
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>End</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:TakeUntil" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="BooleanProperty">
-                <Value>false</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Take">
-                <rx:Count>1</rx:Count>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Concat" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="ard:DigitalOutput">
-                <ard:PortName>COM7</ard:PortName>
-                <ard:Pin>3</ard:Pin>
-              </Combinator>
-            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -2455,27 +2487,29 @@ it.Item3.Item2.Time as Time)</scr:Expression>
             <Edge From="25" To="26" Label="Source1" />
             <Edge From="26" To="27" Label="Source1" />
             <Edge From="28" To="29" Label="Source1" />
-            <Edge From="29" To="30" Label="Source1" />
-            <Edge From="30" To="32" Label="Source1" />
-            <Edge From="31" To="32" Label="Source2" />
-            <Edge From="32" To="33" Label="Source1" />
-            <Edge From="32" To="36" Label="Source3" />
-            <Edge From="32" To="37" Label="Source3" />
-            <Edge From="33" To="34" Label="Source1" />
-            <Edge From="34" To="37" Label="Source1" />
-            <Edge From="35" To="36" Label="Source1" />
-            <Edge From="36" To="37" Label="Source2" />
-            <Edge From="37" To="38" Label="Source1" />
-            <Edge From="38" To="40" Label="Source1" />
-            <Edge From="39" To="40" Label="Source2" />
-            <Edge From="40" To="41" Label="Source1" />
+            <Edge From="29" To="31" Label="Source1" />
+            <Edge From="30" To="31" Label="Source2" />
+            <Edge From="31" To="33" Label="Source1" />
+            <Edge From="32" To="33" Label="Source2" />
+            <Edge From="33" To="36" Label="Source1" />
+            <Edge From="34" To="35" Label="Source1" />
+            <Edge From="35" To="36" Label="Source2" />
+            <Edge From="36" To="37" Label="Source1" />
+            <Edge From="38" To="39" Label="Source1" />
+            <Edge From="39" To="40" Label="Source1" />
+            <Edge From="40" To="42" Label="Source1" />
+            <Edge From="41" To="42" Label="Source2" />
             <Edge From="42" To="43" Label="Source1" />
-            <Edge From="43" To="45" Label="Source1" />
-            <Edge From="44" To="45" Label="Source2" />
-            <Edge From="45" To="48" Label="Source1" />
-            <Edge From="46" To="47" Label="Source1" />
-            <Edge From="47" To="48" Label="Source2" />
-            <Edge From="48" To="49" Label="Source1" />
+            <Edge From="42" To="46" Label="Source3" />
+            <Edge From="42" To="47" Label="Source3" />
+            <Edge From="43" To="44" Label="Source1" />
+            <Edge From="44" To="47" Label="Source1" />
+            <Edge From="45" To="46" Label="Source1" />
+            <Edge From="46" To="47" Label="Source2" />
+            <Edge From="47" To="48" Label="Source1" />
+            <Edge From="48" To="50" Label="Source1" />
+            <Edge From="49" To="50" Label="Source2" />
+            <Edge From="50" To="51" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2528,7 +2562,7 @@ it.Item3.Item2.Time as Time)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>Trash</Value>
+                      <Value>20260610</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2541,7 +2575,7 @@ it.Item3.Item2.Time as Time)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="StringProperty">
-                      <Value>Tests</Value>
+                      <Value>Occlusion</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -2552,6 +2586,26 @@ it.Item3.Item2.Time as Time)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="Format">
                     <Format>{0}mms</Format>
+                    <Selector>it</Selector>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>Params</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Occlusion</Selector>
+                  </Expression>
+                  <Expression xsi:type="Format">
+                    <Format>_{0}ms</Format>
+                    <Selector>it</Selector>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>Params</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>TurnMode</Selector>
+                  </Expression>
+                  <Expression xsi:type="Format">
+                    <Format>_TM{0}</Format>
                     <Selector>it</Selector>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2577,18 +2631,24 @@ it.Item3.Item2.Time as Time)</scr:Expression>
                   <Edge From="3" To="4" Label="Source1" />
                   <Edge From="4" To="5" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="7" To="16" Label="Source1" />
+                  <Edge From="7" To="22" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
-                  <Edge From="9" To="16" Label="Source2" />
-                  <Edge From="10" To="16" Label="Source3" />
+                  <Edge From="9" To="22" Label="Source2" />
+                  <Edge From="10" To="22" Label="Source3" />
                   <Edge From="11" To="12" Label="Source1" />
-                  <Edge From="12" To="16" Label="Source4" />
+                  <Edge From="12" To="22" Label="Source4" />
                   <Edge From="13" To="14" Label="Source1" />
                   <Edge From="14" To="15" Label="Source1" />
-                  <Edge From="15" To="16" Label="Source5" />
+                  <Edge From="15" To="22" Label="Source5" />
                   <Edge From="16" To="17" Label="Source1" />
                   <Edge From="17" To="18" Label="Source1" />
-                  <Edge From="18" To="19" Label="Source1" />
+                  <Edge From="18" To="22" Label="Source6" />
+                  <Edge From="19" To="20" Label="Source1" />
+                  <Edge From="20" To="21" Label="Source1" />
+                  <Edge From="21" To="22" Label="Source7" />
+                  <Edge From="22" To="23" Label="Source1" />
+                  <Edge From="23" To="24" Label="Source1" />
+                  <Edge From="24" To="25" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2830,15 +2890,6 @@ it.Item3.Item2.Time as Time)</scr:Expression>
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>LowResCamera</Name>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>HighResCamera</Name>
-      </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>ElapsedTime</Name>
-      </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="wie:KeyDown">
           <wie:Filter>None</wie:Filter>
@@ -2846,9 +2897,49 @@ it.Item3.Item2.Time as Time)</scr:Expression>
         </Combinator>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
+      <Expression xsi:type="SubscribeSubject">
+        <Name>ElapsedTime</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HighResCamera</Name>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>TrackResult</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>RedLEDDetector</Selector>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>VROutput</Name>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>RedLED</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>PhotoValue</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>PhotoLightOff</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>StimState</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>StimEvent</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>StimOccluded</Selector>
+      </Expression>
     </Nodes>
     <Edges>
-      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="10" To="12" Label="Source1" />
+      <Edge From="10" To="13" Label="Source1" />
+      <Edge From="10" To="14" Label="Source1" />
+      <Edge From="10" To="15" Label="Source1" />
+      <Edge From="10" To="16" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
